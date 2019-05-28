@@ -1,0 +1,66 @@
+#tasksPage{
+    display: grid;
+    grid-template-columns: 50% 50%;
+    justify-items: center;
+    margin-top: 2%;
+    }
+    
+    #tasks{
+        display: grid;
+        grid-gap: 1rem;
+        justify-items: center;
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    /* #tasksPage{
+   display: grid;
+   grid-template-columns: 25% 25% 25% 25%;
+   grid-gap: 1rem;
+
+}
+
+.task-item{
+    background-color: beige;
+margin-top: 5%;
+margin-left: 8%;
+} */
+
+
+
+
+
+/* 
+#tasks{
+    display: grid;
+    grid-gap: 1rem;
+    justify-items: center;
+}
+
+#newTask{
+    conne center;
+    height: 40%;
+    width: 70%;
+    border-radius: 5%;
+    background-color: rgb(180, 180, 180);
+}
+
+#newTaskForm{
+    height: 40%;
+    width: 70%;
+}
+
+
+.task-item{
+    background-color: rgb(180, 180, 180);
+    width: 25rem;
+} */
+
+

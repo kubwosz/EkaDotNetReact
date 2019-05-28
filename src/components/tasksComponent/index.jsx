@@ -2,6 +2,7 @@ import React from "react";
 import { Card, Button, Form } from "react-bootstrap";
 import "./style.css";
 import axios from "axios";
+import ModalComponent from "../modalComponent/index";
 
 export default class TasksComponent extends React.Component {
   constructor() {
@@ -9,7 +10,11 @@ export default class TasksComponent extends React.Component {
     this.state = {
       tasks: [],
       newTaskName: "",
-      newTaskDescription: ""
+      newTaskDescription: "",
+      validated: false,
+      isFormValidated: false,
+      modalShow: false,
+      taskToModal: {}
     };
   }
 
@@ -26,11 +31,11 @@ export default class TasksComponent extends React.Component {
     });
   }
 
-  addNewTask = task => {
+  addNewTask = e => {
     axios
       .post("/todo", {
         name: this.state.newTaskName,
-        description: "fsaf"
+        description: this.state.newTaskDescription
       })
       .then(() => {
         this.getTasks();
@@ -50,26 +55,36 @@ export default class TasksComponent extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  isFormFilled = () => {
-    if (this.state.newTaskName !== "" && this.state.newTaskDescription !== "") {
-      return true;
-    } else {
-      return false;
-    }
-  };
-
   renderCard = (task, k) => {
+    if (task.description.length > 100) {
+      var taskShortDescription = task.description.substring(0, 100);
+    }
+
     return (
-      <Card key={k} className="task-item">
-        <Card.Body>
+      <Card
+        key={k}
+        style={{ width: "18rem", margin: "1rem", cursor: "pointer" }}
+        onClick={() => {
+          this.setState({ modalShow: true, taskToModal: task });
+        }}
+      >
+        <Card.Header>
           <Card.Title>{task.name}</Card.Title>
-          <Card.Text>{task.description}</Card.Text>
+        </Card.Header>
+        <Card.Body>
+          <Card.Text>
+            {taskShortDescription
+              ? taskShortDescription + "..."
+              : task.description}
+          </Card.Text>
         </Card.Body>
       </Card>
     );
   };
 
   render() {
+    let modalClose = () => this.setState({ modalShow: false });
+
     const tasks = this.state.tasks
       .slice(0)
       .reverse()
@@ -82,7 +97,12 @@ export default class TasksComponent extends React.Component {
         <div id="tasks">{tasks}</div>
         <div id="newTask">
           <h1>Add new task:</h1>
-          <Form id="newTaskForm">
+          <Form
+            id="newTaskForm"
+            onSubmit={e => {
+              e.preventDefault();
+            }}
+          >
             <Form.Group>
               <Form.Label>Name:</Form.Label>
               <Form.Control
@@ -98,20 +118,24 @@ export default class TasksComponent extends React.Component {
               <Form.Label>Description:</Form.Label>
               <Form.Control
                 as="textarea"
-                rows="3"
+                rows="5"
                 name="newTaskDescription"
                 onChange={this.onChange}
-                required
               />
             </Form.Group>
             <Button
               variant="primary"
-              disabled={!this.isFormFilled()}
+              disabled={this.state.newTaskName === ""}
               onClick={this.addNewTask}
             >
               Submit
             </Button>
           </Form>
+          <ModalComponent
+            task={this.state.taskToModal}
+            show={this.state.modalShow}
+            onHide={modalClose}
+          />
         </div>
       </div>
     );

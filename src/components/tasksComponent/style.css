@@ -1,20 +1,16 @@
-#tasksPage{
+ #tasksPage{
     display: grid;
     grid-template-columns: 50% 50%;
     justify-items: center;
     margin-top: 2%;
     }
     
-    #tasks{
+    /* #tasks{
         display: grid;
         grid-gap: 1rem;
         justify-items: center;
-    }
-    
-    
-    
-    
-    
+    } */
+
     
     
     
